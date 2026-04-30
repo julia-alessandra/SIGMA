@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+from tkinter import filedialog, messagebox
+from view.components import Toolbar, TabelaMaterias
 
 class AplicativoMaterias:
     def __init__(self, root, extrator_callback, recarregar_callback, excluir_callback):
@@ -10,36 +11,16 @@ class AplicativoMaterias:
         self.extrator_callback = extrator_callback
         self.recarregar_callback = recarregar_callback
         self.excluir_callback = excluir_callback
-        
         self.materias_objetos = []
 
-        frame_topo = tk.Frame(root)
-        frame_topo.pack(fill="x", padx=10, pady=10)
-
-        tk.Button(frame_topo, text="Importar PDF", command=self.selecionar_arquivo).pack(side="left", padx=5)
-        tk.Button(frame_topo, text="Recarregar do Banco", command=self.solicitar_recarga).pack(side="left", padx=5)
-        
-        self.btn_excluir = tk.Button(frame_topo, text="Excluir Selecionada", command=self.confirmar_exclusao, fg="red")
-        self.btn_excluir.pack(side="left", padx=5)
-
-        self.lbl_resumo = tk.Label(frame_topo, text="Créditos Concluídos: 0", font=("Arial", 10, "bold"))
-        self.lbl_resumo.pack(side="right")
-
-        self.colunas = ("status", "codigo", "nome", "natureza", "creditos", "pre_requisitos")
-        self.tabela = ttk.Treeview(root, columns=self.colunas, show="headings")
-        
-        self.tabela.heading("status", text="Status")
-        self.tabela.heading("codigo", text="Código")
-        self.tabela.heading("nome", text="Nome")
-        self.tabela.heading("natureza", text="Nat.")
-        self.tabela.heading("creditos", text="Créd.")
-        self.tabela.heading("pre_requisitos", text="Pré-requisitos")
-
-        self.tabela.bind("<Double-1>", self.alternar_status_materia)
-        self.tabela.pack(expand=True, fill="both", padx=10, pady=5)
+        self.toolbar = Toolbar(root, self.selecionar_arquivo, self.solicitar_recarga, self.confirmar_exclusao)
+        self.tabela = TabelaMaterias(root, self.alternar_status_materia)
 
     def solicitar_recarga(self):
-        self.materias_objetos = self.recarregar_callback()
+        novas = self.recarregar_callback()
+        if not novas:
+            messagebox.showinfo("SIGMA", "O banco de dados está vazio")
+        self.materias_objetos = novas
         self.atualizar_interface()
 
     def confirmar_exclusao(self):
@@ -48,9 +29,7 @@ class AplicativoMaterias:
             messagebox.showwarning("Aviso", "Selecione uma matéria!")
             return
 
-        valores = self.tabela.item(item_id, 'values')
-        codigo = valores[1]
-        
+        codigo = self.tabela.item(item_id, 'values')[1]
         if messagebox.askyesno("Confirmar", f"Excluir a matéria {codigo}?"):
             if self.excluir_callback(codigo):
                 self.solicitar_recarga()
@@ -76,11 +55,10 @@ class AplicativoMaterias:
             self.atualizar_interface()
 
     def atualizar_interface(self):
-        for i in self.tabela.get_children():
-            self.tabela.delete(i)
+        self.tabela.limpar()
         creditos_totais = 0
         for m in self.materias_objetos:
-            status = "Concluida" if m.concluida else "Pendente"
-            self.tabela.insert("", "end", values=(status, m.codigo, m.nome, m.natureza, m.creditos, m.pre_requisitos))
-            if m.concluida: creditos_totais += m.creditos
-        self.lbl_resumo.config(text=f"Créditos Concluídos: {creditos_totais}")
+            self.tabela.inserir_materia(m)
+            if m.concluida:
+                creditos_totais += m.creditos
+        self.toolbar.atualizar_resumo(creditos_totais)

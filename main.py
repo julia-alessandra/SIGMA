@@ -17,20 +17,12 @@ class ControladorPrincipal:
             self.excluir_materia 
         )
         self.app.repo = self.repo 
-        self.carregar_dados_iniciais()
 
     def buscar_do_banco(self):
         return self.repo.listar_todas()
 
     def excluir_materia(self, codigo):
         return self.repo.remover_por_codigo(codigo)
-
-    def carregar_dados_iniciais(self):
-        materias_existentes = self.buscar_do_banco()
-        if materias_existentes:
-            print(f"Carregando {len(materias_existentes)} matérias do banco...")
-            self.app.materias_objetos = materias_existentes
-            self.app.atualizar_interface()
 
     def processar_pdf(self, caminho_pdf):
         extrator = ExtratorCurriculo(caminho_pdf)
