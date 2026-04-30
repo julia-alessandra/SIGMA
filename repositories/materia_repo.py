@@ -33,3 +33,8 @@ class MateriaRepository:
     def limpar_banco(self):
         resultado = self.colecao.delete_many({})
         return resultado.deleted_count
+
+    def remover_por_codigo(self, codigo):
+        """Remove uma matéria específica do MongoDB"""
+        resultado = self.colecao.delete_one({"codigo": codigo})
+        return resultado.deleted_count > 0
