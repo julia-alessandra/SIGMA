@@ -62,3 +62,30 @@ class AplicativoMaterias:
             if m.concluida:
                 creditos_totais += m.creditos
         self.toolbar.atualizar_resumo(creditos_totais)
+
+    def calcular_status(self, materia, codigos_concluidos):
+        """Lógica para determinar o status dinâmico"""
+        if materia.concluida:
+            return "Concluida"
+        
+        if not materia.pre_requisitos:
+            return "Pendente"
+            
+        todos_concluidos = all(req in codigos_concluidos for req in materia.pre_requisitos)
+        
+        return "Pendente" if todos_concluidos else "Bloqueada"
+
+    def atualizar_interface(self):
+        self.tabela.limpar()
+        creditos_totais = 0
+        
+        codigos_concluidos = {m.codigo for m in self.materias_objetos if m.concluida}
+        
+        for m in self.materias_objetos:
+            status = self.calcular_status(m, codigos_concluidos)
+            self.tabela.inserir_materia(m, status)
+            
+            if m.concluida:
+                creditos_totais += m.creditos
+                
+        self.toolbar.atualizar_resumo(creditos_totais)

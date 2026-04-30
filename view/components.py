@@ -35,12 +35,16 @@ class TabelaMaterias(ttk.Treeview):
         self.bind("<Double-1>", on_double_click)
         self.pack(expand=True, fill="both", padx=10, pady=5)
 
+        self.tag_configure('bloqueada', foreground='red')
+        self.tag_configure('pendente', foreground='black')
+        self.tag_configure('concluida', foreground='green')
+
     def limpar(self):
         for i in self.get_children():
             self.delete(i)
 
-    def inserir_materia(self, m):
-        status = "Concluida" if m.concluida else "Pendente"
+    def inserir_materia(self, m, status_calculado):
+        tag = status_calculado.lower()
         self.insert("", "end", values=(
-            status, m.codigo, m.nome, m.natureza, m.creditos, m.pre_requisitos
-        ))
+            status_calculado, m.codigo, m.nome, m.natureza, m.creditos, m.pre_requisitos
+        ), tags=(tag,))
