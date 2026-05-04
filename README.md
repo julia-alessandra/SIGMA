@@ -1,8 +1,9 @@
 # SIGMA - Sistema de Gestão de Matérias Acadêmicas
 
-Trabalho prático final desenvolvido para a disciplina de **Programação Orientada a Objetos (POO)**, ofertada pelo Departamento de Engenharia Elétrica da **UFMG**.
+Trabalho prático final desenvolvido para a disciplina de programação orientada a objetos, ofertada pelo departamento de engenharia elétrica da UFMG.
 
-O sistema automatiza a leitura de percursos curriculares e organiza a progressão acadêmica utilizando persistência em banco de dados NoSQL.
+O sistema automatiza a leitura de percursos curriculares e organiza a progressão acadêmica. Aqui é possível ler a 
+[documentação tecnica do projeto](https://pt.overleaf.com/read/svyzcpmrtsrt#2a8d12)
 
 ---
 
@@ -15,11 +16,11 @@ Antes de começar, certifique-se de ter instalado:
 
 ---
 
-## Instalação e Configuração
+## Instalação e configuração
 
 Siga os passos abaixo para configurar o ambiente local:
 
-### 1. Configurar o Ambiente Python
+### 1. Configurar o ambiente python
 Recomenda-se o uso de um ambiente virtual para isolar as dependências:
 ```bash
 # Criar o ambiente virtual
@@ -35,13 +36,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Dependências do Sistema (Linux)
+### 2. Dependências do sistema (Linux)
 Se estiver utilizando Linux (Ubuntu/Debian), o Tkinter deve ser instalado via gerenciador de pacotes:
 ```bash
 sudo apt update && sudo apt install python3-tk -y
 ```
 
-### 3. Subir o Banco de Dados (Docker)
+### 3. Subir o banco de dados (Docker)
 O projeto utiliza **MongoDB**. Para subir a instância do banco:
 ```bash
 docker compose up -d
@@ -59,7 +60,7 @@ python main.py
 
 ---
 
-## Formato de Dados Suportado
+## Formato de dados suportado
 
 O sistema foi projetado especificamente para processar os dados do **SIGA/UFMG**.
 * **Origem:** "Consulta a percurso curricular".
@@ -67,7 +68,7 @@ O sistema foi projetado especificamente para processar os dados do **SIGA/UFMG**
 
 ---
 
-## Arquitetura do Projeto
+## Arquitetura do projeto
 
 * **Backend:** Python com Programação Orientada a Objetos.
 * **Database:** MongoDB (rodando via Container Docker).
