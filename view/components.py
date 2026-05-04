@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+from tkinter import ttk
 
 class Toolbar(tk.Frame):
     def __init__(self, parent, on_import, on_reload, on_delete):
@@ -17,7 +17,6 @@ class Toolbar(tk.Frame):
 
     def atualizar_resumo(self, total):
         self.lbl_resumo.config(text=f"Créditos Concluídos: {total}")
-
 
 class TabelaMaterias(ttk.Treeview):
     def __init__(self, parent, on_double_click):

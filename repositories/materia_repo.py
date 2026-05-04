@@ -35,6 +35,11 @@ class MateriaRepository:
         return resultado.deleted_count
 
     def remover_por_codigo(self, codigo):
-        """Remove uma matéria específica do MongoDB"""
         resultado = self.colecao.delete_one({"codigo": codigo})
         return resultado.deleted_count > 0
+    
+    def registrar_falta(self, codigo, nova_falta):
+        return self.colecao.update_one(
+            {"codigo": codigo},
+            {"$push": {"faltas": nova_falta}}
+        )
