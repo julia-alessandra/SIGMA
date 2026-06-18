@@ -2,9 +2,7 @@
 
 Trabalho prático final desenvolvido para a disciplina de programação orientada a objetos, ofertada pelo departamento de engenharia elétrica da UFMG.
 
-O sistema automatiza a leitura de percursos curriculares e organiza a progressão acadêmica. Aqui é possível ler a 
-[documentação tecnica do projeto](https://pt.overleaf.com/read/svyzcpmrtsrt#2a8d12)
-
+O sistema automatiza a leitura de percursos curriculares e organiza a progressão acadêmica. 
 ---
 
 ## Pré-requisitos
